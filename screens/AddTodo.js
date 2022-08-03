@@ -10,15 +10,21 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../app/todoSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 export const AddTodo = () => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [isToday, setIsToday] = useState(true);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  const data = useSelector((state) => state.todos);
+  const data = useSelector((state) => state.todos.todos);
 
   const handleChange = (_event, selectedDate) => {
     setShow(false);
@@ -32,19 +38,28 @@ export const AddTodo = () => {
     setShow(true);
   };
 
-  const handleAdd = () => {
-    dispatch(
-      addTask({
-        id: 0,
-        title: name,
-        time: date.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        isToday,
-        isCompleted: false,
-      })
-    );
+  const handleAdd = async () => {
+    let uniqueId = uuidv4();
+    console.log(uniqueId);
+    let todo = {
+      id: uniqueId,
+      title: name,
+      description,
+      time: date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      isToday,
+      isCompleted: false,
+    };
+    try {
+      const value = JSON.stringify([...data, todo]);
+      await AsyncStorage.setItem("@Todos", value);
+      dispatch(addTask(todo));
+      navigation.goBack();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -58,6 +73,22 @@ export const AddTodo = () => {
           onChangeText={(text) => setName(text)}
         />
       </View>
+      <View
+        style={{
+          flexDirection: "column",
+          paddingBottom: 30,
+        }}
+      >
+        <Text style={styles.inputTitle}>Description *</Text>
+        <TextInput
+          style={styles.inputTextArea}
+          placeholder="Description"
+          onChangeText={(text) => setDescription(text)}
+          multiline={true}
+          numberOfLines={5}
+        />
+      </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Hour</Text>
         <TouchableOpacity onPress={handleDate}>
@@ -90,11 +121,6 @@ export const AddTodo = () => {
       <Text style={{ color: "#00000060", textAlign: "center" }}>
         If you disable today, the task will be consider as tomorrow.
       </Text>
-      <View>
-        {data.map((todo, i) => {
-          return <Text key={i}>{todo.title}</Text>;
-        })}
-      </View>
     </View>
   );
 };
@@ -125,6 +151,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#00000053",
     borderBottomWidth: 1,
     width: "80%",
+  },
+  inputTextArea: {
+    borderBottomColor: "#00000053",
+    borderBottomWidth: 1,
+    width: "100%",
   },
   button: {
     marginTop: 10,

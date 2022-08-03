@@ -1,16 +1,33 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleTask } from "../app/todoSlice";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Checkbox = ({ id, isToday, isCompleted }) => {
   const [completed, setCompleted] = useState(isCompleted);
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.todos.todos);
 
   const handleCheck = () => {
     setCompleted(!completed);
-    dispatch(toggleTask(id));
+    try {
+      dispatch(toggleTask(id));
+      AsyncStorage.setItem(
+        "@Todos",
+        JSON.stringify(
+          data.map((todo) => {
+            if (todo.id === id) {
+              return { ...todo, isCompleted: !todo.isCompleted };
+            }
+            return todo;
+          })
+        )
+      );
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return isToday ? (

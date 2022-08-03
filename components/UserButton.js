@@ -1,8 +1,11 @@
-import { Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 export const UserButton = () => {
+  const data = useSelector((state) => state.todos.todos);
   return (
-    <TouchableOpacity>
+    <TouchableOpacity style={styles.container}>
+      <Text style={{ marginRight: 10, fontWeight: "bold" }}>{data.length}</Text>
       <Image
         source={{
           uri: "https://www.infobae.com/new-resizer/1rR8dp3xRuvqjdgp0xjGZM98hCU=/1200x900/filters:format(webp):quality(85)//s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/06/07195040/iStock-92315435.jpg",

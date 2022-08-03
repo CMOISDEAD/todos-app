@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Today, Tomorrow } from "../components/Today";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setTasks } from "../app/todoSlice";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const HideButton = ({ handleHide, isHidden }) => {
   return (
@@ -16,28 +18,39 @@ export const HideButton = ({ handleHide, isHidden }) => {
 };
 
 export const Home = () => {
-  const data = useSelector((state) => state.todos);
-  const [todos, setTodos] = useState([...data]);
+  const todos = useSelector((state) => state.todos.todos);
+  // const [todos, setTodos] = useState([...data]);
   const [isHidden, setIsHidden] = useState(false);
 
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (!isHidden) {
-      setTodos(data);
-    } else {
-      setTodos(data.filter((todo) => !todo.isCompleted));
-    }
-  }, [data]);
+    const getTodos = async () => {
+      try {
+        const dataStorage = await AsyncStorage.getItem("@Todos");
+        if (dataStorage != null) {
+          const dbData = JSON.parse(dataStorage);
+          dispatch(setTasks(dbData));
+        } else {
+          console.log("vacio");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getTodos();
+  }, []);
 
   const handleHide = () => {
     if (isHidden) {
       setIsHidden(false);
-      setTodos(data);
+      // setTodos(data);
       return;
     }
     setIsHidden(!isHidden);
-    setTodos(todos.filter((todo) => !todo.isCompleted));
+    // setTodos(todos.filter((todo) => !todo.isCompleted));
   };
 
   return (

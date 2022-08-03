@@ -5,7 +5,7 @@ export const TodoList = ({ data }) => {
   return (
     <FlatList
       data={data.sort((a, b) => a.isCompleted - b.isCompleted)}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => <Todo {...item} />}
     />
   );
