@@ -1,11 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { TodoList } from "../components/TodoList";
+import { styles } from "../styles/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { resetAll } from "../app/todoSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Today = ({ todos, children }) => {
+  const pallete = useSelector((state) => state.config.pallete);
+
   return (
     <View>
       <View
@@ -16,7 +19,7 @@ export const Today = ({ todos, children }) => {
           justifyContent: "space-between",
         }}
       >
-        <Text style={styles.title}>Today</Text>
+        <Text style={styles(pallete).title}>Today</Text>
         {children}
       </View>
       {todos ? (
@@ -30,6 +33,7 @@ export const Today = ({ todos, children }) => {
 
 export const Tomorrow = ({ todos }) => {
   const dispatch = useDispatch();
+  const pallete = useSelector((state) => state.config.pallete);
 
   const handleReset = async () => {
     dispatch(resetAll());
@@ -50,7 +54,7 @@ export const Tomorrow = ({ todos }) => {
           justifyContent: "space-between",
         }}
       >
-        <Text style={styles.title}>Tomorrow</Text>
+        <Text style={styles(pallete).title}>Tomorrow</Text>
         <TouchableOpacity onPress={handleReset}>
           <Text style={{ color: "red" }}>Reset</Text>
         </TouchableOpacity>
@@ -63,12 +67,3 @@ export const Tomorrow = ({ todos }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 34,
-    fontWeight: "800",
-    marginBottom: 35,
-    marginTop: 10,
-  },
-});

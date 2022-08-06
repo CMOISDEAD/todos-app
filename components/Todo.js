@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Checkbox } from "./Checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { removeTask } from "../app/todoSlice";
+import { styles } from "../styles/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Todo = ({ id, title, time, isToday, isCompleted }) => {
+  const pallete = useSelector((state) => state.config.pallete);
   const data = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -29,7 +31,10 @@ export const Todo = ({ id, title, time, isToday, isCompleted }) => {
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleNavigate}>
+    <TouchableOpacity
+      style={styles(pallete).todoContainer}
+      onPress={handleNavigate}
+    >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Checkbox
           id={id}
@@ -41,13 +46,19 @@ export const Todo = ({ id, title, time, isToday, isCompleted }) => {
         <View>
           <Text
             style={
-              isCompleted ? [styles.title, styles.completed] : styles.title
+              isCompleted
+                ? [styles(pallete).todoName, styles(pallete).completed]
+                : styles(pallete).todoName
             }
           >
             {title}
           </Text>
           <Text
-            style={isCompleted ? [styles.time, styles.completed] : styles.time}
+            style={
+              isCompleted
+                ? [styles(pallete).time, styles(pallete).completed]
+                : styles(pallete).time
+            }
           >
             {time}
           </Text>
@@ -59,37 +70,3 @@ export const Todo = ({ id, title, time, isToday, isCompleted }) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    paddingVertical: 13,
-    backgroundColor: "#ffffff50",
-    borderWidth: 1,
-    borderColor: "#26262610",
-    borderRadius: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#262626",
-  },
-  completed: {
-    textDecorationLine: "line-through",
-    color: "#26262630",
-  },
-  description: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#262626",
-  },
-  time: {
-    fontSize: 13,
-    color: "#262626",
-    fontWeight: "500",
-  },
-});

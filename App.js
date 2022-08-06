@@ -1,14 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home } from "./screens/Home";
 import { AddTodo } from "./screens/AddTodo";
 import { TodoView } from "./screens/TodoView";
+import { ConfigView } from "./screens/ConfigView";
 import { UserButton } from "./components/UserButton";
 import { store } from "./app/store";
 
-// const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -20,7 +19,7 @@ export default function App() {
             name="Home"
             component={Home}
             options={{
-              headerShown: true,
+              headerShown: false,
               headerRight: () => <UserButton />,
             }}
           />
@@ -28,7 +27,7 @@ export default function App() {
             name="Add"
             component={AddTodo}
             options={{
-              headerShown: true,
+              headerShown: false,
               presentation: "modal",
             }}
           />
@@ -36,7 +35,15 @@ export default function App() {
             name="Todo"
             component={TodoView}
             options={{
-              headerShown: true,
+              headerShown: false,
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="Config"
+            component={ConfigView}
+            options={{
+              headerShown: false,
               presentation: "modal",
             }}
           />

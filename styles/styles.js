@@ -1,0 +1,192 @@
+import { StyleSheet } from "react-native";
+
+export const styles = (pallete) =>
+  StyleSheet.create({
+    // Home
+    container: {
+      flex: 1,
+      paddingHorizontal: 15,
+      paddingTop: 50,
+      backgroundColor: pallete.background,
+    },
+    button: {
+      width: 42,
+      height: 42,
+      borderRadius: 21,
+      backgroundColor: pallete.foreground,
+      position: "absolute",
+      bottom: 50,
+      right: 20,
+      shadowColor: pallete.foreground_hard,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    plus: {
+      fontSize: 40,
+      color: pallete.background,
+      position: "absolute",
+      top: -6,
+      left: 10,
+    },
+    title: {
+      color: pallete.foreground,
+      fontSize: 34,
+      fontWeight: "800",
+      marginBottom: 35,
+      marginTop: 10,
+    },
+    // Todo
+    todoContainer: {
+      marginBottom: 10,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 15,
+      paddingVertical: 13,
+      backgroundColor: "#ffffff50",
+      borderWidth: 1,
+      borderColor: "#26262610",
+      borderRadius: 10,
+    },
+    todoName: {
+      fontSize: 20,
+      fontWeight: "500",
+      color: pallete.foreground,
+    },
+    completed: {
+      textDecorationLine: "line-through",
+      color: `${pallete.foreground}30`,
+    },
+    description: {
+      fontSize: 15,
+      fontWeight: "500",
+      color: pallete.foreground,
+    },
+    time: {
+      fontSize: 13,
+      color: pallete.foreground,
+      fontWeight: "500",
+    },
+    // Checkbox
+    check: {
+      width: 20,
+      height: 20,
+      marginRight: 13,
+      marginLeft: 15,
+      borderRadius: 6,
+      backgroundColor: pallete.background_hard,
+      alignItems: "center",
+      justifyContent: "center",
+      shadowColor: pallete.background,
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    uncheck: {
+      width: 20,
+      height: 20,
+      marginRight: 13,
+      marginLeft: 15,
+      borderWidth: 2,
+      borderRadius: 6,
+      borderColor: pallete.foreground,
+      backgroundColor: pallete.foreground,
+      alignItems: "center",
+      justifyContent: "center",
+      shadowColor: pallete.background,
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    tomorrow: {
+      width: 10,
+      height: 10,
+      marginHorizontal: 10,
+      borderRadius: 10,
+      backgroundColor: pallete.background_hard,
+      marginRight: 13,
+      marginLeft: 13,
+    },
+    // Config View
+    box: {
+      paddingTop: 10,
+      paddingBottom: 80,
+    },
+    inputField: {
+      borderBottomColor: `${pallete.background}33`,
+      borderBottomWidth: 1,
+      width: "80%",
+    },
+    configButton: {
+      marginTop: 10,
+      marginBottom: 15,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: pallete.foreground,
+      height: 46,
+      borderRadius: 11,
+    },
+    // TodoView
+    containerRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignContent: "center",
+      alignItems: "center",
+    },
+    title2: {
+      color: pallete.foreground,
+      fontSize: 20,
+      fontWeight: "bold",
+      marginBottom: 35,
+      marginTop: 10,
+    },
+    // Add todo
+    inputContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingBottom: 30,
+    },
+    inputTitle: {
+      fontSize: 20,
+      fontWeight: "800",
+      lineHeight: 24,
+      color: pallete.foreground,
+    },
+    inputText: {
+      borderBottomColor: `${pallete.foreground}53`,
+      borderBottomWidth: 1,
+      width: "80%",
+      color: pallete.foreground,
+    },
+    inputTextArea: {
+      borderBottomColor: `${pallete.foreground}53`,
+      borderBottomWidth: 1,
+      width: "100%",
+      color: pallete.foreground,
+    },
+    buttonWide: {
+      marginTop: 10,
+      marginBottom: 15,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: pallete.foreground,
+      height: 46,
+      borderRadius: 11,
+    },
+    disableButton: {
+      backgroundColor: `${pallete.foreground_hard}44`,
+    },
+  });

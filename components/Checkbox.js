@@ -1,11 +1,13 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTask } from "../app/todoSlice";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
+import { styles } from "../styles/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Checkbox = ({ id, isToday, isCompleted }) => {
+  const pallete = useSelector((state) => state.config.pallete);
   const [completed, setCompleted] = useState(isCompleted);
   const dispatch = useDispatch();
   const data = useSelector((state) => state.todos.todos);
@@ -32,62 +34,14 @@ export const Checkbox = ({ id, isToday, isCompleted }) => {
 
   return isToday ? (
     <TouchableOpacity
-      style={completed ? styles.check : styles.uncheck}
+      style={completed ? styles(pallete).check : styles(pallete).uncheck}
       onPress={handleCheck}
     >
-      {completed && <Entypo name="check" size={16} color={"#fff"} />}
+      {completed && (
+        <Entypo name="check" size={16} color={pallete.foreground} />
+      )}
     </TouchableOpacity>
   ) : (
-    <View style={styles.tomorrow} />
+    <View style={styles(pallete).tomorrow} />
   );
 };
-
-const styles = StyleSheet.create({
-  check: {
-    width: 20,
-    height: 20,
-    marginRight: 13,
-    marginLeft: 15,
-    borderRadius: 6,
-    backgroundColor: "#262626",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  uncheck: {
-    width: 20,
-    height: 20,
-    marginRight: 13,
-    marginLeft: 15,
-    borderWidth: 2,
-    borderRadius: 6,
-    borderColor: "#fff",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  tomorrow: {
-    width: 10,
-    height: 10,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: "#262626",
-    marginRight: 13,
-    marginLeft: 13,
-  },
-});

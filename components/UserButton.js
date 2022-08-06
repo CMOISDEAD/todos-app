@@ -1,33 +1,36 @@
-import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const UserButton = () => {
+  const pallete = useSelector((state) => state.config.pallete);
   const data = useSelector((state) => state.todos.todos);
+  const navigation = useNavigation();
+
+  const handleClick = () => {
+    navigation.navigate("Config");
+  };
+
   return (
-    <TouchableOpacity style={styles.container}>
-      <Text style={{ marginRight: 10, fontWeight: "bold" }}>{data.length}</Text>
-      <Image
-        source={{
-          uri: "https://www.infobae.com/new-resizer/1rR8dp3xRuvqjdgp0xjGZM98hCU=/1200x900/filters:format(webp):quality(85)//s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/06/07195040/iStock-92315435.jpg",
+    <TouchableOpacity
+      style={{ flexDirection: "row", alignItems: "center" }}
+      onPress={handleClick}
+    >
+      <Text
+        style={{
+          marginRight: 10,
+          fontWeight: "bold",
+          color: pallete.foreground,
         }}
-        style={styles.image}
+      >
+        {data.length}
+      </Text>
+      <MaterialIcons
+        name="account-circle"
+        color={pallete.foreground_hard}
+        size={35}
       />
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  image: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-  },
-});
